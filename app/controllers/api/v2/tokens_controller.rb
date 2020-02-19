@@ -28,7 +28,6 @@ class Api::V2::TokensController < Api::BaseController
     auth_scopes = []
     auth_scopes = authorize_scopes(registry) unless registry.nil?
 
-    logger.info "CANARY: #{current_user.username}"
     token = Portus::JwtToken.new(current_user.username, params[:service], auth_scopes)
     logger.tagged("jwt_token", "claim") { logger.debug token.claim }
     render json: token.encoded_hash
